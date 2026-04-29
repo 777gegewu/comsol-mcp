@@ -1,0 +1,6 @@
+mcp>=1.0
+pywinauto>=0.6.8
+pywin32>=306
+pyperclip>=1.8
+python-dotenv>=1.0
+psutil>=5.9

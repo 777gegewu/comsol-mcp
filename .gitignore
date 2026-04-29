@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+.env
+env.local
+*.local
+
+*.log
+hs_err_pid*.log
+*.mph
+*.mph.lock
+
+.DS_Store
+Thumbs.db
