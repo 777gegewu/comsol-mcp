@@ -4,6 +4,8 @@
 
 这个仓库包含一个 MCP 服务器，用于通过 COMSOL Java Shell 控制已打开的 COMSOL Desktop 图形界面。
 
+这是一个非官方的学习项目，主要用于教程、学习和本地自动化实验，不是 COMSOL 官方支持的集成方案。
+
 它面向 GUI 可见编辑：Codex 将 COMSOL Java API 命令粘贴到当前 COMSOL Desktop 模型的 Java Shell 中，并通过 `Ctrl+Enter` 执行。
 
 ## 范围
@@ -67,4 +69,6 @@ Codex 全局配置中的 `mcp_servers.comsol_gui` 应指向：
 
 ## 声明
 
-本项目不是 COMSOL 官方项目。COMSOL 相关产品名称归其权利方所有。
+本项目不是 COMSOL 官方项目，也不隶属于 COMSOL AB，未获得 COMSOL AB 背书或官方支持。COMSOL 相关产品名称和商标归其权利方所有。
+
+本项目代码按 MIT License 发布，仅用于学习和教程用途。建议先在本地测试模型上使用，并在应用到重要 COMSOL 模型前检查生成的 Java API 命令。

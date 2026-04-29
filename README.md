@@ -4,6 +4,8 @@
 
 This repository contains an MCP server for controlling an already-open COMSOL Desktop GUI through the COMSOL Java Shell.
 
+This is an unofficial educational project. It is intended for learning, tutorials, and local automation experiments, not as a COMSOL-supported integration.
+
 The server is designed for GUI-visible edits: Codex pastes COMSOL Java API commands into the Java Shell of the currently open COMSOL Desktop model, then executes them with `Ctrl+Enter`.
 
 ## Scope
@@ -67,4 +69,6 @@ By default, `execute_java_shell` only accepts non-empty executable lines that st
 
 ## Notice
 
-This is not an official COMSOL project. COMSOL product names belong to their respective owner.
+This is not an official COMSOL project and is not affiliated with, endorsed by, or supported by COMSOL AB. COMSOL product names and trademarks belong to their respective owner.
+
+The code is provided for learning and tutorial use under the MIT License. Use it with local test models first, and review generated Java API commands before applying them to important COMSOL models.
