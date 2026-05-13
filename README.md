@@ -57,6 +57,7 @@ Codex global config should point `mcp_servers.comsol_gui` to:
 ## Safe Command Policy
 
 By default, `execute_java_shell` only accepts non-empty executable lines that start with `model.`. Use `allow_non_model_code=true` only when you intentionally need broader Java Shell commands.
+`execute_java_shell` rejects COMSOL save calls such as `model.save(...)` and `ModelUtil.save(...)`; GUI edits should be verified through the MCP and then saved manually by the user in COMSOL Desktop.
 
 ## First Validation
 

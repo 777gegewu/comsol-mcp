@@ -71,6 +71,11 @@ SHELL_SCAN_TIMEOUT = float(os.getenv("COMSOL_GUI_SHELL_SCAN_TIMEOUT_SEC", "8"))
 AUTO_OPEN_SHELL = os.getenv("COMSOL_GUI_AUTO_OPEN_SHELL", "0").strip().lower() in {"1", "true", "yes"}
 WINDOW_LIST_LIMIT = int(os.getenv("COMSOL_GUI_WINDOW_LIST_LIMIT", "20"))
 SCREENSHOT_DIR = Path(os.getenv("COMSOL_GUI_SCREENSHOT_DIR", str(SERVER_DIR / "screenshots")))
+BLOCKED_SAVE_PATTERNS = (
+    re.compile(r"\bmodel\s*\.\s*save\s*\(", re.IGNORECASE),
+    re.compile(r"\bModelUtil\s*\.\s*save\s*\(", re.IGNORECASE),
+    re.compile(r"\bsaveModel\s*\(", re.IGNORECASE),
+)
 
 
 def _missing_dependencies() -> list[str]:
@@ -502,6 +507,17 @@ def _validate_java_shell_code(code: str, allow_non_model_code: bool) -> list[str
     executable_lines = [line for line in lines if line and not line.startswith("//")]
     if not executable_lines:
         raise ValueError("Java Shell code contains no executable lines.")
+    save_lines = [
+        line
+        for line in executable_lines
+        if any(pattern.search(line) for pattern in BLOCKED_SAVE_PATTERNS)
+    ]
+    if save_lines:
+        raise ValueError(
+            "Rejected Java Shell code because GUI MCP must not save COMSOL models automatically. "
+            "Make changes in the GUI model, verify them, and ask the user to save manually. "
+            "Blocked lines: " + "; ".join(save_lines[:5])
+        )
     if allow_non_model_code:
         return executable_lines
 
@@ -626,7 +642,11 @@ def ensure_java_shell() -> dict[str, Any]:
 def execute_java_shell(
     code: str, allow_non_model_code: bool = False, timeout_sec: float = 30
 ) -> dict[str, Any]:
-    """Paste Java API commands into COMSOL Java Shell and execute them with Ctrl+Enter."""
+    """Paste Java API commands into COMSOL Java Shell and execute them with Ctrl+Enter.
+
+    This tool intentionally rejects Java save calls. After GUI edits, ask the
+    user to save the COMSOL model manually.
+    """
     _ensure_runtime_ready()
     executable_lines = _validate_java_shell_code(code, allow_non_model_code)
     result = _execute_in_shell(code, timeout_sec)
@@ -636,6 +656,8 @@ def execute_java_shell(
             "line_count": len(code.splitlines()),
             "executable_line_count": len(executable_lines),
             "allow_non_model_code": allow_non_model_code,
+            "manual_save_required": True,
+            "save_policy": "GUI MCP does not save COMSOL models automatically; ask the user to save manually.",
         }
     )
     return result

@@ -8,6 +8,7 @@ env.local
 *.local
 
 *.log
+screenshots/
 hs_err_pid*.log
 *.mph
 *.mph.lock

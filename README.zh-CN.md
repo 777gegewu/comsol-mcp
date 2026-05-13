@@ -57,6 +57,7 @@ Codex 全局配置中的 `mcp_servers.comsol_gui` 应指向：
 ## 安全策略
 
 默认情况下，`execute_java_shell` 只接受以 `model.` 开头的非空可执行语句。只有在明确需要执行更广泛的 Java Shell 命令时，才应将 `allow_non_model_code` 设置为 `true`。
+`execute_java_shell` 会拒绝 `model.save(...)`、`ModelUtil.save(...)` 等 COMSOL 保存调用；GUI 修改应通过 MCP 检查确认后，由用户在 COMSOL Desktop 中手动保存。
 
 ## 首次验证
 
