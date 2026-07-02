@@ -68,6 +68,22 @@ Codex 全局配置中的 `mcp_servers.comsol_gui` 应指向：
 5. 在 COMSOL GUI 中确认参数已出现。
 6. 使用 `execute_java_shell("model.param().remove(\"codex_gui_mcp_probe\");")` 清理测试参数。
 
+## Java Shell 写入排障
+
+如果能检测到 COMSOL，但命令没有写入 Java Shell：
+
+1. 确保 COMSOL Desktop、Codex 和本 MCP 服务器运行在同一个可交互的
+   Windows 桌面会话中。远程、锁屏、最小化或不同管理员权限级别的会话，
+   都可能导致 UI Automation 或剪贴板粘贴失败。
+2. 手动打开 Java Shell，并先点击一次 Java Shell 的输入区域，再调用
+   `execute_java_shell(...)`。停靠式 Java Shell 可能暴露多个文本控件，
+   MCP 需要真正可编辑的输入控件获得焦点。
+3. 先运行 `gui_status()`，确认 `java_shell_detected` 为 `true`；再运行
+   `ensure_java_shell()`，然后重新提交命令。
+4. 如果仍然没有写入，请先在 COMSOL 里手动测试 `Ctrl+V` 能否把剪贴板内容
+   粘贴进 Java Shell。剪贴板管理器、远程桌面或安全工具可能会拦截 MCP
+   使用的粘贴路径。
+
 ## 声明
 
 本项目不是 COMSOL 官方项目，也不隶属于 COMSOL AB，未获得 COMSOL AB 背书或官方支持。COMSOL 相关产品名称和商标归其权利方所有。

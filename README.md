@@ -68,6 +68,22 @@ By default, `execute_java_shell` only accepts non-empty executable lines that st
 5. Confirm the parameter appears in the GUI.
 6. Clean up with `execute_java_shell("model.param().remove(\"codex_gui_mcp_probe\");")`.
 
+## Troubleshooting Java Shell Input
+
+If COMSOL is detected but commands are not written into Java Shell:
+
+1. Keep COMSOL Desktop, Codex, and this MCP server in the same interactive
+   Windows desktop session. UI Automation and clipboard paste may fail across
+   remote, locked, minimized, or different-privilege sessions.
+2. Open Java Shell manually and click once inside its input area before calling
+   `execute_java_shell(...)`. Docked Java Shell panes can expose several text
+   controls, and the MCP needs the editable input control to have focus.
+3. Run `gui_status()` and confirm `java_shell_detected` is `true`; then run
+   `ensure_java_shell()` before submitting commands again.
+4. If the command still does not appear, test normal clipboard paste into Java
+   Shell with `Ctrl+V` in COMSOL itself. Clipboard managers, remote desktops, or
+   security tools can block the paste path used by the MCP.
+
 ## Notice
 
 This is not an official COMSOL project and is not affiliated with, endorsed by, or supported by COMSOL AB. COMSOL product names and trademarks belong to their respective owner.
